@@ -103,7 +103,7 @@ class ImportOfficialArticles extends Command
         $published = $xpath->query('//meta[@property="article:published_time"]/@content')->item(0)?->nodeValue;
         $entry = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' entry ') and contains(@class, 'isi_berita')]")->item(0);
         $paragraphs = [];
-        if ($entry) foreach ($xpath->query('.//p|.//h2|.//h3|.//h4|.//li', $entry) as $node) { $text = trim(preg_replace('/\\s+/', ' ', $node->textContent)); if ($text !== '') $paragraphs[] = '<p>'.e($text).'</p>'; }
+        if ($entry) foreach ($xpath->query('.//p|.//h2|.//h3|.//h4|.//li', $entry) as $node) { $text = trim(strip_tags(html_entity_decode($node->textContent, ENT_QUOTES | ENT_HTML5, 'UTF-8'))); $text = trim(preg_replace('/\\s+/', ' ', $text)); if ($text !== '') $paragraphs[] = $text; }
         $images = [];
         $ogImage = trim($xpath->query('//meta[@property="og:image"]/@content')->item(0)?->nodeValue ?? '');
         if (str_starts_with($ogImage, 'https://harianmerahputih.id/') && ! str_contains($ogImage, '/logo/')) {
@@ -113,7 +113,7 @@ class ImportOfficialArticles extends Command
             $src = $img->getAttribute('data-src') ?: $img->getAttribute('src');
             if (str_starts_with($src, 'https://harianmerahputih.id/') && ! str_contains($src, '/logo/') && ! str_contains($src, 'data:image') && ! in_array($src, $images, true)) $images[] = $src;
         }
-        return ['title' => $title ?: 'Berita Harian Merah Putih', 'excerpt' => $excerpt, 'published_at' => $published ?: now(), 'body' => implode('', $paragraphs), 'images' => array_slice($images, 0, 8)];
+        return ['title' => $title ?: 'Berita Harian Merah Putih', 'excerpt' => $excerpt, 'published_at' => $published ?: now(), 'body' => implode("\n\n", $paragraphs), 'images' => array_slice($images, 0, 8)];
     }
 
     private function downloadMedia(string $url, Article $article, int $order, string $title): Media
