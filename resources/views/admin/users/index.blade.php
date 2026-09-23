@@ -1,0 +1,7 @@
+@extends('admin.layout')
+@section('title', 'Pengguna')
+@section('section', 'Administrasi')
+@section('content')
+<header class="admin-page-head"><div><span class="admin-eyebrow">Akses & peran</span><h1>Pengguna</h1><p>Kelola anggota redaksi dan tingkat aksesnya.</p></div><a class="admin-button" href="{{ route('admin.users.create') }}"><x-icon name="plus" />Tambah pengguna</a></header>
+<section class="admin-card"><div class="admin-card__head"><div><h2>Tim redaksi</h2><p>{{ $users->count() }} akun terdaftar</p></div></div><div class="admin-table">@forelse($users as $user)<article><div class="admin-row-main"><span class="admin-avatar">{{ strtoupper(mb_substr($user->name, 0, 1)) }}</span><div><h3>{{ $user->name }}</h3><span>{{ $user->email }}</span></div></div><div class="admin-row-meta"><span class="admin-role-badge">{{ str_replace('_', ' ', $user->role) }}</span></div><div class="admin-row-actions"><a class="admin-action-link" href="{{ route('admin.users.edit', $user) }}"><x-icon name="edit" />Edit</a>@if(!$user->is(auth()->user()))<form method="post" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Hapus pengguna ini?')">@csrf @method('DELETE')<button class="admin-icon-danger" aria-label="Hapus {{ $user->name }}"><x-icon name="trash" /></button></form>@endif</div></article>@empty<div class="admin-empty"><x-icon name="users" size="36" /><h3>Belum ada pengguna</h3></div>@endforelse</div></section>
+@endsection

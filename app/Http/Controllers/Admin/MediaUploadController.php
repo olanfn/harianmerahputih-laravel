@@ -1,0 +1,4 @@
+<?php
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller; use App\Http\Requests\Admin\StoreMediaRequest; use App\Models\AuditLog; use App\Models\Media; use Illuminate\Support\Facades\Storage; use Illuminate\Support\Str;
+class MediaUploadController extends Controller { public function store(StoreMediaRequest $request) { $file=$request->file('image'); $dimensions=getimagesize($file->getRealPath()); $path=$file->storeAs('media/'.now()->format('Y/m'), Str::uuid().'.'.$file->extension(),'public'); $media=Media::create(['disk'=>'public','path'=>$path,'original_name'=>$file->getClientOriginalName(),'mime_type'=>$file->getMimeType(),'size'=>$file->getSize(),'width'=>$dimensions[0],'height'=>$dimensions[1],'uploaded_by'=>$request->user()->id,'is_temporary'=>true]); AuditLog::record('media.uploaded', $media); return response()->json(['id'=>$media->id,'url'=>$media->url(),'name'=>$media->original_name]); } }

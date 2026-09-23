@@ -1,0 +1,8 @@
+@php($label = $type === 'event-photos' ? 'Foto Peristiwa' : 'Merah Putih TV')
+@extends('admin.layout')
+@section('title', $label)
+@section('section', 'Konten Visual')
+@section('content')
+<header class="admin-page-head"><div><span class="admin-eyebrow">Konten visual</span><h1>{{ $label }}</h1><p>Kelola materi {{ strtolower($label) }} untuk portal publik.</p></div><a class="admin-button" href="{{ route('admin.showcase.create', $type) }}"><x-icon name="plus" />Tambah konten</a></header>
+<section class="admin-card"><div class="admin-card__head"><div><h2>Daftar {{ $label }}</h2><p>{{ $items->total() }} konten ditemukan</p></div></div><div class="admin-table">@forelse($items as $item)<article><div class="admin-row-main"><span class="admin-row-icon"><x-icon :name="$type === 'event-photos' ? 'camera' : 'video'" /></span><div><div class="admin-row-labels"><span class="admin-status-badge admin-status-badge--{{ $item->status }}">{{ $item->status }}</span><span>Urutan {{ $item->sort_order }}</span></div><h3>{{ $item->title }}</h3><span>/{{ $item->slug }}</span></div></div><div class="admin-row-actions"><a class="admin-action-link" href="{{ route('admin.showcase.edit', [$type, $item->id]) }}"><x-icon name="edit" />Edit</a><form method="post" action="{{ route('admin.showcase.destroy', [$type, $item->id]) }}" onsubmit="return confirm('Hapus item ini?')">@csrf @method('DELETE')<button class="admin-icon-danger" aria-label="Hapus konten"><x-icon name="trash" /></button></form></div></article>@empty<div class="admin-empty"><x-icon :name="$type === 'event-photos' ? 'camera' : 'video'" size="36" /><h3>Belum ada konten</h3></div>@endforelse</div></section><div class="admin-pagination">{{ $items->links() }}</div>
+@endsection

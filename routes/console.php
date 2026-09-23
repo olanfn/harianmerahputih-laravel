@@ -1,0 +1,3 @@
+<?php
+use App\Models\Media; use Illuminate\Support\Facades\Artisan; use Illuminate\Support\Facades\Storage; use Illuminate\Support\Facades\Schedule;
+Artisan::command('media:cleanup-temporary', function () { $cutoff=now()->subDays(7); $media=Media::query()->where('is_temporary',true)->where('created_at','<',$cutoff)->doesntHave('articleLinks')->get(); foreach($media as $item){Storage::disk($item->disk)->delete($item->path);$item->delete();} $this->info("Removed {$media->count()} temporary media item(s)."); })->purpose('Remove unattached temporary media after safe retention'); Schedule::command('media:cleanup-temporary')->daily();

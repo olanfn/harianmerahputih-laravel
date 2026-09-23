@@ -1,0 +1,6 @@
+<nav class="bottom-nav" aria-label="Navigasi cepat">
+    <a href="{{ route('home') }}" class="focus-ring {{ request()->routeIs('home') && request('panel') !== 'popular' ? 'is-active' : '' }}"><span class="bottom-nav__icon"><x-icon name="home" size="19" /></span><small>Beranda</small></a>
+    <a href="{{ route('news.index') }}" class="focus-ring {{ request()->routeIs('news.category', 'news.index') ? 'is-active' : '' }}"><span class="bottom-nav__icon"><x-icon name="grid" size="19" /></span><small>Kategori</small></a>
+    <a href="{{ route('home', ['panel' => 'popular']) }}" class="focus-ring {{ request()->routeIs('home') && request('panel') === 'popular' ? 'is-active' : '' }}"><span class="bottom-nav__icon"><x-icon name="star" size="19" /></span><small>Terpopuler</small></a>
+    <a href="{{ route('news.search') }}" class="focus-ring {{ request()->routeIs('news.search') ? 'is-active' : '' }}"><span class="bottom-nav__icon"><x-icon name="search" size="19" /></span><small>Pencarian</small></a>
+</nav>

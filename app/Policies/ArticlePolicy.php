@@ -1,0 +1,4 @@
+<?php
+namespace App\Policies;
+use App\Models\Article; use App\Models\User;
+class ArticlePolicy { public function create(User $user): bool { return in_array($user->role,['super_admin','admin','editor','writer'],true); } public function update(User $user, Article $article): bool { return in_array($user->role,['super_admin','admin','editor'],true) || ($user->role==='writer' && $article->author_id===$user->id && in_array($article->status,['draft','review'],true)); } public function publish(User $user, Article $article): bool { return in_array($user->role,['super_admin','admin','editor'],true); } public function delete(User $user, Article $article): bool { return in_array($user->role,['super_admin','admin'],true) || ($user->role==='writer' && $article->author_id===$user->id && $article->status==='draft'); } }
