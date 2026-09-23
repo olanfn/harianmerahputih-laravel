@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\RedactionPageController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ShowcaseController as AdminShowcaseController;
+use App\Http\Controllers\Admin\SiteContactController;
 use App\Http\Controllers\DistributionController;
 use App\Http\Controllers\PublicNewsController;
 use App\Http\Controllers\ReadinessController;
@@ -58,6 +59,8 @@ Route::prefix(config('news.admin_path'))->name('admin.')->group(function () {
         Route::put('/redaksi', [RedactionPageController::class, 'update'])->name('redaction.update');
         Route::get('/halaman/{page:slug}/edit', [RedactionPageController::class, 'editPage'])->name('pages.edit');
         Route::put('/halaman/{page:slug}', [RedactionPageController::class, 'updatePage'])->name('pages.update');
+        Route::get('/site-contact', [SiteContactController::class, 'edit'])->name('site-contact.edit');
+        Route::put('/site-contact', [SiteContactController::class, 'update'])->name('site-contact.update');
         Route::bind('adminArticle', fn ($value) => \App\Models\Article::query()->findOrFail($value));
         Route::get('articles/{adminArticle}/preview', [ArticleController::class, 'preview'])->name('articles.preview');
         Route::get('articles/{adminArticle}/revisions', [ArticleController::class, 'revisions'])->name('articles.revisions');

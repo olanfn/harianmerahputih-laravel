@@ -26,6 +26,10 @@ class PublicNewsController extends Controller
             'editor' => $editorPicks,
             default => $popular,
         };
+        $viralCategory = Category::query()->where('slug', 'viral')->first();
+        $viralArticles = $viralCategory
+            ? $viralCategory->articles()->published()->with(['category', 'featuredMedia.media'])->latest('published_at')->take(5)->get()
+            : collect();
 
         return view('home', [
             'headline' => (clone $published)->first(),
@@ -35,6 +39,7 @@ class PublicNewsController extends Controller
             'panelArticles' => $panelArticles,
             'activePanel' => $panel,
             'categories' => $this->categories(),
+            'viralArticles' => $viralArticles,
         ]);
     }
 

@@ -38,6 +38,7 @@
                 <a href="{{ route('admin.categories.index') }}" @class(['is-active' => request()->routeIs('admin.categories.*')])><x-icon name="folder" /><span>Kategori</span></a>
                 <a href="{{ route('admin.tags.index') }}" @class(['is-active' => request()->routeIs('admin.tags.*')])><x-icon name="tag" /><span>Tag</span></a>
                 <a href="{{ route('admin.redaction.edit') }}" @class(['is-active' => request()->routeIs('admin.redaction.*', 'admin.pages.*')])><x-icon name="edit" /><span>Halaman Publik</span></a>
+                <a href="{{ route('admin.site-contact.edit') }}" @class(['is-active' => request()->routeIs('admin.site-contact.*')])><x-icon name="globe" /><span>Kontak & Sosial</span></a>
                 <a href="{{ route('admin.audit.index') }}" @class(['is-active' => request()->routeIs('admin.audit.*')])><x-icon name="audit" /><span>Audit Log</span></a>
             @endif
             @if($adminUser->role === 'super_admin')

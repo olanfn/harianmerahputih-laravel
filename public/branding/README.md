@@ -9,6 +9,7 @@ kebenaran untuk logo serta ikon aplikasi.
 | --- | --- |
 | `logo-primary.png` | Logo utama untuk header desktop dan footer |
 | `logo-mobile.png` | Logo ringkas untuk header mobile |
+| `logo-footer.png` | Varian logo footer dengan warna merah dipertahankan dan tagline terang untuk latar gelap |
 | `logo-mark.png` | Brand mark untuk penggunaan compact |
 | `favicon.ico` | Favicon fallback browser |
 | `favicon-16x16.png` | Favicon PNG ukuran 16x16 |

@@ -23,6 +23,7 @@
         <div class="article-page__layout">
             <div class="article-page__main">
                 <header class="article-page__header">
+                    <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="{{ route('home') }}">Beranda</a><span aria-hidden="true">›</span><a href="{{ route('news.category', $article->category) }}">{{ $article->category->name }}</a><span aria-hidden="true">›</span><span>{{ $article->title }}</span></nav>
                     <div class="article-page__tools">
                         <a href="{{ $backUrl }}" class="article-page__back focus-ring"><x-icon name="arrow" size="15" /><span>{{ $backLabel }}</span></a>
                         <img src="{{ asset('branding/logo-mobile.png') }}" alt="Harian Merah Putih" class="article-page__tools-brand">

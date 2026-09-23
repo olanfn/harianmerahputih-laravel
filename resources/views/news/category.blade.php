@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @php
-    $robots = $articles->getCollection()->contains('is_demo', true) ? 'noindex' : null;
+    $robots = request()->query('tab') ? 'noindex' : ($articles->getCollection()->contains('is_demo', true) ? 'noindex' : null);
     $title = $category->name;
     $metaDescription = $category->description ?: 'Berita terbaru dari kategori '.$category->name.'.';
     $featured = $articles->first();

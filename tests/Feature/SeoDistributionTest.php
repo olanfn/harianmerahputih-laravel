@@ -51,7 +51,7 @@ class SeoDistributionTest extends TestCase
     public function test_sitemaps_and_rss_only_contain_published_articles(): void
     {
         $category = Category::factory()->create();
-        $published = Article::factory()->published()->create(['category_id' => $category->id, 'title' => 'Published Feed Article', 'is_demo' => false]);
+        $published = Article::factory()->published()->create(['category_id' => $category->id, 'title' => 'Published Feed Article', 'published_at' => now()->subHour(), 'is_demo' => false]);
         $draft = Article::factory()->create(['category_id' => $category->id, 'title' => 'Draft Hidden Feed Article']);
         $future = Article::factory()->published()->create(['category_id' => $category->id, 'title' => 'Future Hidden Feed Article', 'published_at' => now()->addDay()]);
 

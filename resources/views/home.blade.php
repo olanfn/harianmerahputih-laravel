@@ -112,7 +112,13 @@
         </div>
         <div class="content-columns">
             <section><x-section-heading title="Berita Terbaru" eyebrow="Update redaksi" :link="route('news.index')" />@if ($latest->isNotEmpty())<div class="latest-list latest-list--cards">@foreach ($latest as $article)<article class="latest-item"><a href="{{ route('news.show', $article->slug) }}" class="focus-ring"><x-news-media :article="$article" /></a><div><div class="story-meta"><a href="{{ route('news.category', $article->category) }}" class="story-meta__category">{{ $article->category->name }}</a>@if ($article->is_demo)<span class="demo-tag">DEMO</span>@endif</div><h3><a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a></h3><p>{{ $article->excerpt }}</p><div class="story-meta story-meta--muted"><time datetime="{{ $article->published_at?->toISOString() }}">{{ $article->published_at?->locale('id')->translatedFormat('d F Y, H:i') }} WIB</time></div></div></article>@endforeach</div>@else<div class="section-empty"><x-empty-state /></div>@endif</section>
-            <aside class="sidebar-stack"><div class="promo-card"><span class="section-kicker">Harian Merah Putih</span><strong>Kabar yang dekat dengan Indonesia.</strong><p>Ruang promosi internal untuk tahap berikutnya.</p></div><x-newsletter-card /></aside>
+            <aside class="sidebar-stack">
+                <div class="promo-card"><span class="section-kicker">Harian Merah Putih</span><strong>Kabar yang dekat dengan Indonesia.</strong><p>Ruang promosi internal untuk tahap berikutnya.</p></div>
+                @if(isset($viralArticles) && $viralArticles->isNotEmpty())
+                    <section class="viral-sidebar"><x-section-heading title="Viral" eyebrow="Topik terkini" /><div class="viral-sidebar__list">@foreach($viralArticles as $viral)<article><a href="{{ route('news.show', $viral->slug) }}" class="viral-sidebar__media focus-ring"><x-news-media :article="$viral" /></a><div><h3><a href="{{ route('news.show', $viral->slug) }}">{{ $viral->title }}</a></h3><small>{{ $viral->published_at?->locale('id')->translatedFormat('d M Y H:i') }} WIB</small></div></article>@endforeach</div></section>
+                @endif
+                <x-newsletter-card />
+            </aside>
         </div>
         <section class="mobile-category-grid" aria-label="Jelajahi kategori"><span class="section-kicker">Jelajahi Kategori</span><div>@foreach ($categories as $category)<a href="{{ route('news.category', $category) }}" class="focus-ring">{{ $category->name }}</a>@endforeach</div></section>
     </section>

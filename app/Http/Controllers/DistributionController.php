@@ -11,7 +11,7 @@ class DistributionController extends Controller
 {
     public function sitemap(): Response
     {
-        $articles = $this->publishedArticles()->get();
+        $articles = $this->publishedArticles()->where('published_at', '>=', now()->subDays(2))->take(1000)->get();
         $categories = Category::query()->active()->orderBy('sort_order')->get();
         $institutionalPages = RedactionPage::query()->orderBy('sort_order')->get();
 
