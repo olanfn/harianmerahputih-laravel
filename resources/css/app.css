@@ -129,8 +129,10 @@ button, input { font: inherit; }
 .popular-list b { color: var(--red); font-family: var(--font-display); font-size: 25px; line-height: 1; }
 .popular-list a { font-size: 13px; font-weight: 800; line-height: 1.3; }
 .popular-list a:hover { color: var(--red); }
+.popular-list__media { display: block; min-width: 0; font-size: 0 !important; line-height: 0 !important; }
 .popular-list__media .news-media { min-height: 54px; border-radius: 4px; }
 .popular-list__body { min-width: 0; }
+.popular-list__body > a { display: block; font-size: 13px; }
 .popular-list small { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; }
 
 .content-columns { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; margin-top: 46px; }
@@ -683,9 +685,9 @@ button, input { font: inherit; }
     .secondary-story__body h2 { font-family: var(--font-sans); font-size: 15px; font-weight: 900; line-height: 1.12; }
     .popular-panel { padding: 14px; border-top-width: 3px; border-radius: 7px; box-shadow: none; }
     .popular-panel__tabs { justify-content: space-between; gap: 8px; }
-    .popular-list li { grid-template-columns: 38px 1fr; gap: 9px; padding: 12px 0; }
+    .popular-list li { grid-template-columns: 38px 64px minmax(0, 1fr); gap: 9px; padding: 12px 0; }
     .popular-list b { font-family: var(--font-sans); font-size: 25px; font-weight: 900; }
-    .popular-list a { font-size: 11px; line-height: 1.28; }
+    .popular-list__body > a { font-size: 11px; line-height: 1.28; }
     .popular-list small { font-size: 9px; }
     .content-columns { grid-template-columns: minmax(0, 1fr) 300px; gap: 14px; margin-top: 20px; }
     .section-heading { padding-bottom: 9px; }
@@ -769,7 +771,7 @@ button, input { font: inherit; }
     .secondary-story__body h2 { font-size: 14px; }
     .popular-panel { padding: 13px; }
     .popular-list li { padding: 11px 0; }
-    .popular-list a { font-size: 10px; }
+    .popular-list__body > a { font-size: 10px; }
     .latest-list--cards .latest-item h3 { font-size: 10px; }
     .latest-list--cards .latest-item p { font-size: 9px; }
 }
