@@ -91,7 +91,8 @@
                         @foreach ($panelArticles as $index => $article)
                             <li>
                                 <b>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</b>
-                                <div>
+                                <a href="{{ route('news.show', $article->slug) }}" class="popular-list__media focus-ring"><x-news-media :article="$article" /></a>
+                                <div class="popular-list__body">
                                     <a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a>
                                     <small>
                                         {{ $article->category->name }} · {{ $article->published_at?->locale('id')->translatedFormat('d M Y') }}
