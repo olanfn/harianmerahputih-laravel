@@ -8,7 +8,7 @@ use DOMNode;
 
 class SafeRichText
 {
-    private const ALLOWED_TAGS = ['p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'blockquote', 'a', 'span', 'font'];
+    private const ALLOWED_TAGS = ['p', 'div', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'blockquote', 'a', 'span', 'font'];
 
     public function clean(string $html): string
     {
@@ -59,7 +59,7 @@ class SafeRichText
             $name = strtolower($attribute->name);
             $allowed = ($tag === 'a' && in_array($name, ['href', 'target', 'rel'], true))
                 || ($tag === 'font' && $name === 'size')
-                || ($tag === 'span' && $name === 'style');
+            || (in_array($tag, ['p', 'div', 'h2', 'h3', 'h4', 'span'], true) && $name === 'style');
 
             if (! $allowed) {
                 $element->removeAttribute($attribute->name);
@@ -84,7 +84,7 @@ class SafeRichText
             $element->setAttribute('size', (string) max(1, min(7, $size ?: 3)));
         }
 
-        if ($tag === 'span' && $element->hasAttribute('style')) {
+        if (in_array($tag, ['p', 'div', 'h2', 'h3', 'h4', 'span'], true) && $element->hasAttribute('style')) {
             $safeStyles = [];
             foreach (explode(';', $element->getAttribute('style')) as $declaration) {
                 [$property, $value] = array_pad(explode(':', $declaration, 2), 2, '');

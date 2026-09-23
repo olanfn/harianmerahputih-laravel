@@ -46,6 +46,19 @@ class RedactionPageTest extends TestCase
         $this->assertStringNotContainsString('javascript:', $content);
     }
 
+    public function test_safe_rich_text_preserves_center_alignment_from_the_editor(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)->put(route('admin.redaction.update'), [
+            'content' => '<h2 style="text-align: center">Judul Tentang Harian Merah Putih</h2><div style="text-align: right">Isi aman</div>',
+        ])->assertRedirect();
+
+        $content = RedactionPage::query()->where('slug', 'redaksi')->value('content');
+        $this->assertStringContainsString('style="text-align: center"', $content);
+        $this->assertStringContainsString('style="text-align: right"', $content);
+    }
+
     public function test_all_institutional_pages_share_the_redaction_template_and_have_real_footer_links(): void
     {
         $routes = [
