@@ -52,13 +52,34 @@ class SeoDistributionTest extends TestCase
     {
         $category = Category::factory()->create();
         $published = Article::factory()->published()->create(['category_id' => $category->id, 'title' => 'Published Feed Article', 'published_at' => now()->subHour(), 'is_demo' => false]);
+        $olderPublished = Article::factory()->published()->create(['category_id' => $category->id, 'title' => 'Older Published Feed Article', 'published_at' => now()->subDays(5), 'is_demo' => false]);
+        $demo = Article::factory()->published()->create(['category_id' => $category->id, 'title' => 'Demo Hidden Feed Article', 'published_at' => now()->subHour(), 'is_demo' => true]);
         $draft = Article::factory()->create(['category_id' => $category->id, 'title' => 'Draft Hidden Feed Article']);
         $future = Article::factory()->published()->create(['category_id' => $category->id, 'title' => 'Future Hidden Feed Article', 'published_at' => now()->addDay()]);
 
-        foreach (['/sitemap.xml', '/news-sitemap.xml', '/feed.xml'] as $uri) {
-            $response = $this->get($uri);
-            $response->assertOk()->assertSee($published->slug)->assertDontSee($draft->slug)->assertDontSee($future->slug);
-        }
+        $this->get('/sitemap.xml')
+            ->assertOk()
+            ->assertSee($published->slug)
+            ->assertSee($olderPublished->slug)
+            ->assertDontSee($demo->slug)
+            ->assertDontSee($draft->slug)
+            ->assertDontSee($future->slug);
+
+        $this->get('/news-sitemap.xml')
+            ->assertOk()
+            ->assertSee($published->slug)
+            ->assertDontSee($olderPublished->slug)
+            ->assertDontSee($demo->slug)
+            ->assertDontSee($draft->slug)
+            ->assertDontSee($future->slug);
+
+        $this->get('/feed.xml')
+            ->assertOk()
+            ->assertSee($published->slug)
+            ->assertSee($olderPublished->slug)
+            ->assertDontSee($demo->slug)
+            ->assertDontSee($draft->slug)
+            ->assertDontSee($future->slug);
 
         $this->get('/sitemap.xml')
             ->assertSee(route('redaction.show'), false)

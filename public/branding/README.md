@@ -11,6 +11,7 @@ kebenaran untuk logo serta ikon aplikasi.
 | `logo-mobile.png` | Logo ringkas untuk header mobile |
 | `logo-footer.png` | Varian logo footer dengan warna merah dipertahankan dan tagline terang untuk latar gelap |
 | `logo-mark.png` | Brand mark untuk penggunaan compact |
+| `favicon_merahputih.ico` | Favicon utama browser |
 | `favicon.ico` | Favicon fallback browser |
 | `favicon-16x16.png` | Favicon PNG ukuran 16x16 |
 | `favicon-32x32.png` | Favicon PNG ukuran 32x32 |

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', 'Redaksi') · Harian Merah Putih</title>
-    <link rel="icon" href="{{ asset('branding/favicon.ico') }}">
+    <link rel="icon" href="{{ asset('branding/favicon_merahputih.ico') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="admin-body">

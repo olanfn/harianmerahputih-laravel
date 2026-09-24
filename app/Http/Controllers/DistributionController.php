@@ -11,7 +11,7 @@ class DistributionController extends Controller
 {
     public function sitemap(): Response
     {
-        $articles = $this->publishedArticles()->where('published_at', '>=', now()->subDays(2))->take(1000)->get();
+        $articles = $this->publishedArticles()->get();
         $categories = Category::query()->active()->orderBy('sort_order')->get();
         $institutionalPages = RedactionPage::query()->orderBy('sort_order')->get();
 
@@ -20,7 +20,7 @@ class DistributionController extends Controller
 
     public function newsSitemap(): Response
     {
-        $articles = $this->publishedArticles()->get();
+        $articles = $this->publishedArticles()->where('published_at', '>=', now()->subDays(2))->take(1000)->get();
 
         return response()->view('distribution.news-sitemap', compact('articles'))->header('Content-Type', 'application/xml; charset=UTF-8');
     }
@@ -49,6 +49,6 @@ class DistributionController extends Controller
 
     private function publishedArticles()
     {
-        return Article::query()->published()->with(['category', 'featuredMedia.media'])->latest('published_at');
+        return Article::query()->published()->where('is_demo', false)->with(['category', 'featuredMedia.media'])->latest('published_at');
     }
 }

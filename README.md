@@ -12,6 +12,7 @@ Portal berita Harian Merah Putih dibangun dengan Laravel 12, Blade, Alpine.js, d
 - Halaman publik institusional dengan template yang konsisten: `/redaksi`, `/tentang-kami`, `/pedoman-media-siber`, `/kebijakan-privasi`, dan `/hubungi-redaksi`.
 - Featured image, galeri multi-gambar, gambar inline, alt text, caption, dan fallback brand.
 - Sitemap, news sitemap, RSS, robots.txt dinamis, serta redirect slug lama.
+- Metadata SEO, Open Graph, JSON-LD `NewsArticle`, dan URL siap didaftarkan ke Google Search Console setelah deployment HTTPS.
 - Layout responsif untuk desktop dan mobile, termasuk bottom navigation mobile.
 - Endpoint diagnostik `/internal/readiness` hanya aktif pada environment `local` dan `testing`; endpoint ini otomatis 404 pada production.
 
@@ -126,6 +127,7 @@ Hal penting:
 - Jalankan `php artisan storage:link`, cache produksi, dan atur izin `storage/` serta `bootstrap/cache/`.
 - Daftarkan cron `php artisan schedule:run` setiap menit untuk Scheduler Laravel.
 - Verifikasi login admin, artikel published, multi-gambar, sitemap, RSS, robots, redirect 301, HTTPS, dan log error setelah rilis.
+- Setelah domain aktif, verifikasi properti di Google Search Console melalui DNS lalu submit `/sitemap.xml`; panduan lengkap tersedia di [docs/13_PRODUCTION_SEO.md](docs/13_PRODUCTION_SEO.md).
 
 ### Pengecualian paket deployment
 
