@@ -18,6 +18,15 @@ class FoundationTest extends TestCase
         $response->assertSee('Berita perdana sedang disiapkan');
     }
 
+    public function test_unknown_public_page_uses_branded_not_found_page(): void
+    {
+        $this->get('/halaman-yang-tidak-tersedia')
+            ->assertNotFound()
+            ->assertSee('Halaman ini tidak tersedia.')
+            ->assertSee(route('home'))
+            ->assertSee(route('news.index'));
+    }
+
     public function test_readiness_page_does_not_expose_environment_secrets(): void
     {
         $response = $this->get('/internal/readiness');

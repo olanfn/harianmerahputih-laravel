@@ -137,6 +137,41 @@ class CmsCompletionTest extends TestCase
         $this->get('/merah-putih-tv')->assertOk()->assertSee('TV Terbit');
     }
 
+    public function test_event_photo_can_be_published_without_manual_publication_time_and_uploaded_media_is_saved(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $media = Media::create([
+            'disk' => 'public',
+            'path' => 'media/event-photo.jpg',
+            'original_name' => 'event-photo.jpg',
+            'mime_type' => 'image/jpeg',
+            'size' => 10,
+            'width' => 1200,
+            'height' => 800,
+            'is_temporary' => true,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.showcase.create', 'event-photos'))
+            ->assertOk()
+            ->assertSee('showcase-media-input');
+
+        $this->actingAs($admin)
+            ->post(route('admin.showcase.store', 'event-photos'), [
+                'title' => 'Foto Peristiwa Uji',
+                'status' => 'published',
+                'media_id' => $media->id,
+                'sort_order' => 1,
+            ])
+            ->assertRedirect(route('admin.showcase.index', 'event-photos'));
+
+        $photo = EventPhoto::where('title', 'Foto Peristiwa Uji')->firstOrFail();
+        $this->assertNotNull($photo->published_at);
+        $this->assertSame($media->id, $photo->media_id);
+        $this->assertFalse($media->fresh()->is_temporary);
+        $this->get('/foto-peristiwa')->assertSee('Foto Peristiwa Uji');
+    }
+
     public function test_password_reset_request_page_is_available_and_rate_limited_route_exists(): void
     {
         $this->get(route('admin.password.request'))->assertOk()->assertSee('Lupa password');

@@ -22,19 +22,30 @@
 
         <div class="article-page__layout">
             <div class="article-page__main">
-                <header class="article-page__header">
-                    <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="{{ route('home') }}">Beranda</a><span aria-hidden="true">›</span><a href="{{ route('news.category', $article->category) }}">{{ $article->category->name }}</a><span aria-hidden="true">›</span><span>{{ $article->title }}</span></nav>
-                    <div class="article-page__tools">
-                        <a href="{{ $backUrl }}" class="article-page__back focus-ring"><x-icon name="arrow" size="15" /><span>{{ $backLabel }}</span></a>
-                        <img src="{{ asset('branding/logo-mobile.png') }}" alt="Harian Merah Putih" class="article-page__tools-brand">
-                        <div class="article-page__actions">
-                            @if ($isAdminPreview)<span class="article-page__preview-label">Pratinjau redaksi</span>@endif
-                            <button type="button" class="focus-ring" aria-label="Atur ukuran teks">A<sup>+</sup></button>
-                            <button type="button" class="focus-ring" aria-label="Bagikan artikel">↗</button>
+                <div class="article-page__tools">
+                    <a href="{{ $backUrl }}" class="article-page__back focus-ring"><x-icon name="arrow" size="15" /><span>{{ $backLabel }}</span></a>
+                    <img src="{{ asset('branding/logo-mobile.png') }}" alt="Harian Merah Putih" class="article-page__tools-brand">
+                    <div class="article-page__actions">
+                        @if ($isAdminPreview)<span class="article-page__preview-label">Pratinjau redaksi</span>@endif
+                        <button type="button" class="focus-ring" data-article-font aria-label="Perbesar ukuran teks">A<sup>+</sup></button>
+                        <div class="article-share">
+                            <button type="button" class="focus-ring" data-article-share aria-label="Bagikan artikel" aria-expanded="false" aria-controls="article-share-menu">↗</button>
+                            <div class="article-share-menu" id="article-share-menu" data-article-share-menu hidden>
+                                <span>Bagikan ke</span>
+                                <div class="article-share-menu__links">
+                                    <a class="focus-ring article-social-action article-social-action--facebook" data-article-social="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke Facebook" title="Bagikan ke Facebook"><x-icon name="facebook" size="15" /></a>
+                                    <a class="focus-ring article-social-action article-social-action--whatsapp" data-article-social="whatsapp" href="https://wa.me/?text={{ urlencode($article->title.' '.url()->current()) }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke WhatsApp" title="Bagikan ke WhatsApp"><x-icon name="whatsapp" size="15" /></a>
+                                    <button type="button" class="focus-ring article-social-action article-social-action--instagram" data-article-social="instagram" aria-label="Bagikan ke Instagram" title="Salin tautan untuk Instagram"><x-icon name="instagram" size="15" /></button>
+                                    <button type="button" class="focus-ring article-social-action article-social-action--tiktok" data-article-social="tiktok" aria-label="Bagikan ke TikTok" title="Salin tautan untuk TikTok"><x-icon name="tiktok" size="15" /></button>
+                                </div>
+                            </div>
                         </div>
+                        <span class="article-action-status" data-article-action-status role="status" aria-live="polite"></span>
                     </div>
+                </div>
+                <header class="article-page__header">
                     <div class="article-page__category">
-                        <a href="{{ route('news.category', $article->category) }}" class="story-meta__category">{{ $article->category->name }}</a>
+                        <span class="article-category-badge">{{ $article->category->name }}</span>
                         @if ($article->is_demo)<span class="demo-tag">DEMONSTRASI</span>@endif
                     </div>
                     <h1>{{ $article->title }}</h1>
@@ -60,7 +71,11 @@
                         @if ($segment['type'] === 'media')
                             <figure class="article-inline-media"><img src="{{ $segment['media']->url() }}" alt="{{ $segment['media']->alt_text ?: $article->title }}"><figcaption>{{ $segment['caption'] }}</figcaption></figure>
                         @else
-                            {!! nl2br(e($segment['text'])) !!}
+                            @foreach (preg_split('/(?:\R{2,}|\R(?=\s*["“]))/u', trim($segment['text'])) as $paragraph)
+                                @if (trim($paragraph) !== '')
+                                    <p @class(['article-body__paragraph', 'article-body__paragraph--quote' => \Illuminate\Support\Str::startsWith(trim($paragraph), ['"', '“'])])>{!! nl2br(e(trim($paragraph))) !!}</p>
+                                @endif
+                            @endforeach
                         @endif
                     @endforeach
                 </div>

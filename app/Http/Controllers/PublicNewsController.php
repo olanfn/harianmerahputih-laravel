@@ -33,7 +33,9 @@ class PublicNewsController extends Controller
 
         return view('home', [
             'headline' => (clone $published)->first(),
-            'latest' => (clone $published)->skip(1)->take(6)->get(),
+            'secondary' => (clone $published)->skip(1)->take(3)->get(),
+            'tickerArticles' => (clone $published)->take(4)->get(),
+            'latest' => (clone $published)->skip(4)->take(10)->get(),
             'popular' => $popular,
             'editorPicks' => $editorPicks,
             'panelArticles' => $panelArticles,

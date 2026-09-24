@@ -105,6 +105,12 @@ Untuk memeriksa jadwal cleanup media temporary:
 php artisan schedule:list
 ```
 
+Saat development, jalankan `composer run dev` agar web server, scheduler, queue listener,
+log viewer, dan Vite berjalan bersamaan. Scheduler lokal diperlukan agar artikel dengan
+status **Jadwalkan** otomatis berubah menjadi **Terbitkan** ketika waktu publikasinya tiba.
+Pada production Hostinger, gunakan cron `php artisan schedule:run` setiap menit seperti
+yang dijelaskan pada bagian deployment di bawah.
+
 ## Deployment Hostinger
 
 Deployment tidak dilakukan oleh repository ini. Ikuti panduan khusus proyek di [docs/06_HOSTINGER_DEPLOYMENT.md](docs/06_HOSTINGER_DEPLOYMENT.md), lalu gunakan checklist QA di [docs/07_QA_AND_RELEASE.md](docs/07_QA_AND_RELEASE.md).

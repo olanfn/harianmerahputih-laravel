@@ -45,6 +45,21 @@ class PublicNewsTest extends TestCase
         $this->get('/berita/'.$published->slug)->assertOk()->assertSee($published->title);
     }
 
+    public function test_quote_on_a_new_line_is_rendered_as_an_editorial_quote_block(): void
+    {
+        $category = Category::factory()->create();
+        $article = Article::factory()->published()->create([
+            'category_id' => $category->id,
+            'body' => "Paragraf pembuka.\n\"Ini adalah kutipan penting.\"",
+        ]);
+
+        $this->get(route('news.show', $article->slug))
+            ->assertOk()
+            ->assertSee('<p class="article-body__paragraph">Paragraf pembuka.</p>', false)
+            ->assertSee('<p class="article-body__paragraph article-body__paragraph--quote">', false)
+            ->assertSee('Ini adalah kutipan penting.');
+    }
+
     public function test_search_input_is_limited_and_empty_states_are_rendered(): void
     {
         $this->get('/cari?q='.str_repeat('x', 101))->assertStatus(302);

@@ -1,17 +1,35 @@
 @extends('layouts.app')
 
 @php
-    $hasDemo = $headline?->is_demo || $latest->contains('is_demo', true) || $panelArticles->contains('is_demo', true);
+    $hasDemo = $headline?->is_demo || $secondary->contains('is_demo', true) || $latest->contains('is_demo', true) || $panelArticles->contains('is_demo', true);
     $robots = $hasDemo ? 'noindex' : null;
     $isPopularPage = request()->query('panel') === 'popular';
     $title = $isPopularPage ? 'Berita Terpopuler' : 'Beranda';
     $metaDescription = $isPopularPage ? 'Daftar berita terpopuler Harian Merah Putih berdasarkan jumlah pembaca.' : 'Berita terbaru Indonesia dari Harian Merah Putih.';
-    $secondary = $latest->take(3);
-    $tickerArticle = $headline ?: $latest->first();
+    $tickerArticle = $tickerArticles->first();
 @endphp
 
 @section('content')
-    <div class="ticker"><div class="site-container ticker__inner"><span class="ticker__label"><b aria-hidden="true">ϟ</b> TERKINI</span>@if ($tickerArticle)<a href="{{ route('news.show', $tickerArticle->slug) }}" class="ticker__headline">{{ $tickerArticle->title }}</a>@else<span class="ticker__headline">Ruang redaksi sedang menyiapkan berita perdana.</span>@endif<div class="ticker__controls"><span aria-hidden="true">‹</span><span aria-hidden="true">›</span><a href="{{ route('news.index') }}" class="ticker__all">Lihat Semua</a></div></div></div>
+    <div class="ticker" data-ticker>
+        <div class="site-container ticker__inner">
+            <span class="ticker__label"><b aria-hidden="true">ϟ</b> TERKINI</span>
+            @if ($tickerArticle)
+                <a href="{{ route('news.show', $tickerArticle->slug) }}" class="ticker__headline" data-ticker-headline>{{ $tickerArticle->title }}</a>
+                <div class="ticker__items" data-ticker-items hidden>
+                    @foreach ($tickerArticles as $tickerItem)
+                        <a href="{{ route('news.show', $tickerItem->slug) }}" data-ticker-item>{{ $tickerItem->title }}</a>
+                    @endforeach
+                </div>
+            @else
+                <span class="ticker__headline">Ruang redaksi sedang menyiapkan berita perdana.</span>
+            @endif
+            <div class="ticker__controls" aria-label="Navigasi berita terkini">
+                <button type="button" class="ticker__control" data-ticker-prev aria-label="Berita terkini sebelumnya">‹</button>
+                <button type="button" class="ticker__control" data-ticker-next aria-label="Berita terkini berikutnya">›</button>
+                <a href="{{ route('news.index') }}" class="ticker__all">Lihat Semua</a>
+            </div>
+        </div>
+    </div>
     @if ($isPopularPage)
         <div class="popular-page">
             <section class="site-container popular-page__intro">

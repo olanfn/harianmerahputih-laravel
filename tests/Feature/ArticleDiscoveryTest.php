@@ -24,6 +24,34 @@ class ArticleDiscoveryTest extends TestCase
         $this->get(route('home', ['panel' => 'editor']))->assertOk()->assertSee($pick->title);
     }
 
+    public function test_home_latest_cards_continue_after_headline_stories(): void
+    {
+        $category = Category::factory()->create();
+        $articles = collect(range(1, 14))->map(
+            fn (int $number) => Article::factory()->published()->create([
+                'category_id' => $category,
+                'title' => 'Berita Beranda '.$number,
+                'published_at' => now()->subMinutes($number),
+            ]),
+        );
+
+        $response = $this->get(route('home'));
+
+        $response->assertOk();
+        $this->assertSame(
+            $articles->slice(4, 10)->pluck('id')->all(),
+            $response->viewData('latest')->pluck('id')->all(),
+        );
+        $this->assertSame(
+            $articles->slice(1, 3)->pluck('id')->all(),
+            $response->viewData('secondary')->pluck('id')->all(),
+        );
+        $this->assertSame(
+            $articles->slice(0, 4)->pluck('id')->all(),
+            $response->viewData('tickerArticles')->pluck('id')->all(),
+        );
+    }
+
     public function test_category_tabs_filter_and_order_articles(): void
     {
         $category = Category::factory()->create();
@@ -62,5 +90,37 @@ class ArticleDiscoveryTest extends TestCase
 
         $this->actingAs($editor)->put(route('admin.articles.update', $article), $payload)->assertRedirect();
         $this->assertTrue($article->fresh()->is_editor_pick);
+    }
+
+    public function test_published_articles_require_a_publication_time_and_scheduled_articles_require_a_future_time(): void
+    {
+        $editor = User::factory()->create(['role' => 'editor']);
+        $category = Category::factory()->create();
+        $payload = [
+            'category_id' => $category->id,
+            'title' => 'Artikel Siap Terbit',
+            'excerpt' => 'Ringkasan artikel siap terbit.',
+            'body' => 'Isi artikel siap terbit.',
+            'status' => 'published',
+        ];
+
+        $this->actingAs($editor)
+            ->post(route('admin.articles.store'), $payload)
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('articles', [
+            'title' => 'Artikel Siap Terbit',
+            'status' => 'published',
+        ]);
+
+        $this->actingAs($editor)
+            ->post(route('admin.articles.store'), [
+                ...$payload,
+                'status' => 'scheduled',
+                'published_at' => now()->subMinute()->format('Y-m-d H:i:s'),
+            ])
+            ->assertSessionHasErrors('published_at');
+
+        $this->assertSame('published', Article::query()->where('title', 'Artikel Siap Terbit')->value('status'));
     }
 }
