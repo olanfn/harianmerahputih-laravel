@@ -1073,6 +1073,10 @@ button, input { font: inherit; }
 .main-nav__index::before { position: absolute; top: 50%; left: 0; width: 1px; height: 34px; background: #dfe2e5; content: ''; transform: translateY(-50%); }
 .brand-lockup--footer .brand-lockup__primary { opacity: .96; }
 
+/* Keep the footer logo centered and fitted inside its white lockup. */
+.brand-lockup--footer { box-sizing: border-box; display: flex; width: min(255px, 100%); align-items: center; justify-content: center; margin-inline: auto; }
+.brand-lockup--footer .brand-lockup__primary { width: 100%; max-width: 100%; height: auto; object-fit: contain; }
+
 @media (min-width: 1024px) {
     .main-nav__inner { min-height: 78px; }
     .main-nav__home, .main-nav__categories > a, .main-nav__more > summary, .main-nav__index { min-height: 78px; }
