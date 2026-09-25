@@ -21,6 +21,15 @@ class PublicNewsController extends Controller
         $panel = in_array($panel, ['popular', 'latest', 'editor'], true) ? $panel : 'popular';
         $popular = (clone $published)->reorder()->orderByDesc('view_count')->orderByDesc('published_at')->take(5)->get();
         $editorPicks = (clone $published)->where('is_editor_pick', true)->reorder()->latest('published_at')->take(5)->get();
+        $headline = $editorPicks->first() ?: (clone $published)->first();
+        $secondaryQuery = clone $published;
+        $latestQuery = clone $published;
+        if ($headline) {
+            $secondaryQuery->whereKeyNot($headline->getKey());
+            $latestQuery->whereKeyNot($headline->getKey());
+        }
+        $secondary = $secondaryQuery->take(3)->get();
+        $latest = $latestQuery->skip(3)->take(10)->get();
         $panelArticles = match ($panel) {
             'latest' => (clone $published)->take(5)->get(),
             'editor' => $editorPicks,
@@ -32,10 +41,10 @@ class PublicNewsController extends Controller
             : collect();
 
         return view('home', [
-            'headline' => (clone $published)->first(),
-            'secondary' => (clone $published)->skip(1)->take(3)->get(),
+            'headline' => $headline,
+            'secondary' => $secondary,
             'tickerArticles' => (clone $published)->take(4)->get(),
-            'latest' => (clone $published)->skip(4)->take(10)->get(),
+            'latest' => $latest,
             'popular' => $popular,
             'editorPicks' => $editorPicks,
             'panelArticles' => $panelArticles,

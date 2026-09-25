@@ -52,6 +52,20 @@ class ArticleDiscoveryTest extends TestCase
         );
     }
 
+    public function test_latest_editor_pick_becomes_homepage_headline(): void
+    {
+        $category = Category::factory()->create();
+        $latest = Article::factory()->published()->create(['category_id' => $category, 'title' => 'Berita Terbaru', 'published_at' => now()]);
+        $second = Article::factory()->published()->create(['category_id' => $category, 'title' => 'Berita Kedua', 'published_at' => now()->subMinute()]);
+        $third = Article::factory()->published()->create(['category_id' => $category, 'title' => 'Berita Ketiga', 'published_at' => now()->subMinutes(2)]);
+        $picked = Article::factory()->published()->create(['category_id' => $category, 'title' => 'Berita Pilihan Utama', 'published_at' => now()->subDay(), 'is_editor_pick' => true]);
+
+        $response = $this->get(route('home'))->assertOk();
+
+        $this->assertSame($picked->id, $response->viewData('headline')->id);
+        $this->assertSame([$latest->id, $second->id, $third->id], $response->viewData('secondary')->pluck('id')->all());
+    }
+
     public function test_category_tabs_filter_and_order_articles(): void
     {
         $category = Category::factory()->create();
@@ -73,10 +87,10 @@ class ArticleDiscoveryTest extends TestCase
         $this->assertSame(11, $article->fresh()->view_count);
     }
 
-    public function test_editor_can_mark_article_as_editor_pick(): void
+    public function test_only_admin_roles_can_mark_article_as_editor_pick(): void
     {
-        $editor = User::factory()->create(['role' => 'editor']);
-        $article = Article::factory()->create(['author_id' => $editor]);
+        $admin = User::factory()->create(['role' => 'admin']);
+        $article = Article::factory()->create(['author_id' => $admin]);
 
         $payload = [
             'category_id' => $article->category_id,
@@ -88,8 +102,15 @@ class ArticleDiscoveryTest extends TestCase
             'is_editor_pick' => '1',
         ];
 
-        $this->actingAs($editor)->put(route('admin.articles.update', $article), $payload)->assertRedirect();
+        $this->actingAs($admin)->put(route('admin.articles.update', $article), $payload)->assertRedirect();
         $this->assertTrue($article->fresh()->is_editor_pick);
+
+        $editor = User::factory()->create(['role' => 'editor']);
+        $editorArticle = Article::factory()->create(['author_id' => $editor, 'is_editor_pick' => false]);
+        $editorPayload = [...$payload, 'title' => $editorArticle->title, 'slug' => $editorArticle->slug, 'category_id' => $editorArticle->category_id];
+
+        $this->actingAs($editor)->put(route('admin.articles.update', $editorArticle), $editorPayload)->assertRedirect();
+        $this->assertFalse($editorArticle->fresh()->is_editor_pick);
     }
 
     public function test_published_articles_require_a_publication_time_and_scheduled_articles_require_a_future_time(): void
