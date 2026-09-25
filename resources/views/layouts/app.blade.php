@@ -100,7 +100,7 @@
                     </button>
                     <a href="{{ route('home') }}" class="brand-lockup focus-ring" aria-label="Harian Merah Putih, kembali ke beranda">
                         <img src="{{ asset('branding/logo-primary.svg') }}" alt="Harian Merah Putih" class="brand-lockup__primary">
-                        <img src="{{ asset('branding/logo-mobile.svg') }}" alt="Harian Merah Putih" class="brand-lockup__mobile">
+                        <img src="{{ asset('branding/logo-mobile.png') }}" alt="Harian Merah Putih" class="brand-lockup__mobile">
                     </a>
                     <div class="masthead__date">{{ now()->locale('id')->translatedFormat('l, d F Y') }}<br><strong>Berita Indonesia Hari Ini</strong></div>
                     <a href="{{ route('news.search') }}" class="mobile-search-button focus-ring" aria-label="Buka pencarian"><x-icon name="search" size="20" /></a>

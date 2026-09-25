@@ -24,7 +24,7 @@
             <div class="article-page__main">
                 <div class="article-page__tools">
                     <a href="{{ $backUrl }}" class="article-page__back focus-ring"><x-icon name="arrow" size="15" /><span>{{ $backLabel }}</span></a>
-                    <img src="{{ asset('branding/logo-mobile.svg') }}" alt="Harian Merah Putih" class="article-page__tools-brand">
+                    <img src="{{ asset('branding/logo-mobile.png') }}" alt="Harian Merah Putih" class="article-page__tools-brand">
                     <div class="article-page__actions">
                         @if ($isAdminPreview)<span class="article-page__preview-label">Pratinjau redaksi</span>@endif
                         <button type="button" class="focus-ring" data-article-font aria-label="Perbesar ukuran teks">A<sup>+</sup></button>
