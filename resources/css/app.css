@@ -516,7 +516,7 @@ button, input { font: inherit; }
     .brand-lockup__primary { display: none; }
     .brand-lockup__mobile { display: block; width: 165px; max-height: 50px; object-fit: contain; }
     .brand-lockup--footer .brand-lockup__primary { display: block; width: 205px; }
-    .headline-middle { display: grid; }
+    .headline-middle { display: grid; grid-template-rows: none; }
     .popular-panel { display: none; }
     .hero-story { min-height: 390px; border-radius: 6px; }
     .hero-story > .news-media img { width: 100px; }
