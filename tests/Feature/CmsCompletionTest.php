@@ -49,7 +49,7 @@ class CmsCompletionTest extends TestCase
         $media = new Media(['disk' => 'public', 'path' => 'media/2026/09/preview-image.jpg']);
 
         $this->assertSame('/storage/media/2026/09/preview-image.jpg', $media->url());
-        $this->assertStringStartsWith('http://localhost/storage/', $media->absoluteUrl());
+        $this->assertStringStartsWith(rtrim((string) config('app.url'), '/').'/storage/', $media->absoluteUrl());
     }
 
     public function test_public_article_renders_featured_gallery_and_inline_media_in_order(): void
