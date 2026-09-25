@@ -83,8 +83,10 @@ class ArticleController extends Controller
                     $featured = true;
                 }
                 $media = Media::findOrFail($item['id']);
-                $media->update(['alt_text' => $item['alt_text'] ?? $media->alt_text, 'caption' => $item['caption'] ?? $media->caption, 'is_temporary' => false]);
-                $article->mediaLinks()->create(['media_id' => $media->id, 'role' => $role, 'sort_order' => $item['sort_order'] ?? $position, 'caption_override' => $item['caption'] ?? null]);
+                $altText = trim((string) ($item['alt_text'] ?? '')) ?: $article->title;
+                $caption = trim((string) ($item['caption'] ?? '')) ?: $article->title;
+                $media->update(['alt_text' => $altText, 'caption' => $caption, 'is_temporary' => false]);
+                $article->mediaLinks()->create(['media_id' => $media->id, 'role' => $role, 'sort_order' => $item['sort_order'] ?? $position, 'caption_override' => $caption]);
             }
             return redirect()->route('admin.articles.edit', $article)->with('status', 'Artikel disimpan.');
         });

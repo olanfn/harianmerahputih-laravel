@@ -279,6 +279,9 @@ document.addEventListener('DOMContentLoaded', () => {
         row.dataset.id = media.id;
         row.dataset.url = media.url;
         row.innerHTML = `<div class="media-item__preview"><img src="${media.url}" alt=""><span class="media-item__handle">⋮⋮</span></div><div class="media-item__fields"><label><span>Peran</span><select data-field="role"><option value="featured">Gambar utama</option><option value="gallery" selected>Galeri</option><option value="inline">Inline</option></select></label><label><span>Alt text</span><input data-field="alt_text"></label><label><span>Caption</span><input data-field="caption"></label><button class="media-remove" type="button" data-remove>Hapus relasi</button><small>Berhasil diunggah</small></div>`;
+        const articleTitle = document.querySelector('input[name="title"]')?.value.trim() || '';
+        row.querySelector('[data-field="alt_text"]').value = articleTitle;
+        row.querySelector('[data-field="caption"]').value = articleTitle;
         list.append(row);
         sync();
     };
@@ -290,6 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const send = () => {
             const form = new FormData();
             form.append('image', file);
+            const articleTitle = document.querySelector('input[name="title"]')?.value.trim();
+            if (articleTitle) form.append('article_title', articleTitle);
             fetch(editor.dataset.uploadUrl, { method: 'POST', headers: { 'X-CSRF-TOKEN': csrf, Accept: 'application/json' }, body: form })
                 .then((response) => response.ok ? response.json() : Promise.reject())
                 .then((media) => { status.remove(); addRow(media); })

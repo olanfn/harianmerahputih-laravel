@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Media;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -75,5 +76,33 @@ class CmsWorkflowTest extends TestCase
             'title' => 'Artikel Tanpa Ringkasan',
             'excerpt' => 'Paragraf pembuka artikel yang dapat digunakan sebagai ringkasan otomatis. Paragraf berikutnya.',
         ]);
+    }
+
+    public function test_media_uses_article_title_for_filename_and_empty_metadata(): void
+    {
+        Storage::fake('public');
+        $editor = User::factory()->create(['role' => 'editor']);
+        $category = Category::factory()->create();
+        $title = 'Judul Artikel Untuk Gambar';
+
+        $upload = $this->actingAs($editor)->postJson(route('admin.media.store'), [
+            'image' => UploadedFile::fake()->image('kamera-lama.jpg', 1200, 800),
+            'article_title' => $title,
+        ])->assertOk();
+
+        $media = Media::findOrFail($upload->json('id'));
+        $this->assertSame('judul-artikel-untuk-gambar.jpg', $media->original_name);
+        Storage::disk('public')->assertExists($media->path);
+
+        $this->actingAs($editor)->post(route('admin.articles.store'), [
+            'category_id' => $category->id,
+            'title' => $title,
+            'body' => 'Isi artikel.',
+            'status' => 'draft',
+            'media' => [['id' => $media->id, 'role' => 'featured', 'sort_order' => 0, 'alt_text' => '', 'caption' => '']],
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('media', ['id' => $media->id, 'alt_text' => $title, 'caption' => $title, 'is_temporary' => 0]);
+        $this->assertDatabaseHas('article_media', ['media_id' => $media->id, 'role' => 'featured', 'caption_override' => $title]);
     }
 }

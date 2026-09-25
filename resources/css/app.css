@@ -861,8 +861,8 @@ button, input { font: inherit; }
 .admin-auth-shell { display: grid; grid-template-columns: minmax(360px, .92fr) minmax(480px, 1.08fr); min-height: 100vh; }
 .admin-auth-brand { position: relative; display: flex; min-height: 100vh; flex-direction: column; justify-content: space-between; overflow: hidden; padding: clamp(36px, 5vw, 72px); background: #a80f27; color: #fff; }
 .admin-auth-brand::before { position: absolute; right: -140px; bottom: -170px; width: 430px; height: 430px; border: 90px solid rgba(255,255,255,.06); border-radius: 50%; content: ''; }
-.admin-auth-brand__logo { position: relative; z-index: 1; display: inline-flex; width: fit-content; border-radius: 8px; background: #fff; padding: 14px 18px; box-shadow: 0 16px 35px rgba(50,0,8,.16); }
-.admin-login .admin-auth-brand__logo img { width: clamp(215px, 21vw, 290px); height: auto; }
+.admin-auth-brand__logo { position: relative; z-index: 1; display: flex; box-sizing: border-box; width: 100%; align-items: center; justify-content: center; border-radius: 8px; background: #fff; padding: 14px 18px; box-shadow: 0 16px 35px rgba(50,0,8,.16); }
+.admin-login .admin-auth-brand__logo img { width: min(290px, 100%); max-width: 100%; height: auto; }
 .admin-auth-brand__content { position: relative; z-index: 1; max-width: 510px; margin-block: 60px; }
 .admin-auth-brand__content > span, .admin-auth-eyebrow { display: block; font-size: 11px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; }
 .admin-auth-brand__content > span { color: #ffc4cd; }
@@ -901,7 +901,7 @@ button, input { font: inherit; }
     .admin-auth-shell { grid-template-columns: 1fr; }
     .admin-auth-brand { min-height: auto; padding: 24px; }
     .admin-auth-brand__content, .admin-auth-brand > small { display: none; }
-    .admin-login .admin-auth-brand__logo img { width: 205px; }
+    .admin-login .admin-auth-brand__logo img { width: min(290px, 100%); }
     .admin-auth-panel { min-height: calc(100vh - 105px); padding: 40px 24px; }
 }
 
@@ -1074,8 +1074,8 @@ button, input { font: inherit; }
 .brand-lockup--footer .brand-lockup__primary { opacity: .96; }
 
 /* Keep the footer logo centered and fitted inside its white lockup. */
-.brand-lockup--footer { box-sizing: border-box; display: flex; width: min(255px, 100%); align-items: center; justify-content: center; margin-inline: auto; }
-.brand-lockup--footer .brand-lockup__primary { width: 100%; max-width: 100%; height: auto; object-fit: contain; }
+.brand-lockup--footer { box-sizing: border-box; display: flex; width: 100%; max-width: 100%; align-items: center; justify-content: center; margin-inline: auto; }
+.brand-lockup--footer .brand-lockup__primary { width: min(280px, 100%); max-width: 100%; height: auto; object-fit: contain; }
 
 @media (min-width: 1024px) {
     .main-nav__inner { min-height: 78px; }
