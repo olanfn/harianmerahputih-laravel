@@ -7,10 +7,10 @@ kebenaran untuk logo serta ikon aplikasi.
 
 | File | Penggunaan |
 | --- | --- |
-| `logo-primary.png` | Logo utama untuk header desktop dan footer |
-| `logo-mobile.png` | Logo ringkas untuk header mobile |
+| `logo-primary.svg` | Logo utama dari master baru untuk header desktop dan admin |
+| `logo-mobile.svg` | Varian crop logo utama untuk header mobile dan detail artikel |
 | `logo-footer.png` | Varian logo footer dengan warna merah dipertahankan dan tagline terang untuk latar gelap |
-| `logo-mark.png` | Brand mark untuk penggunaan compact |
+| `logo-mark.svg` | Varian mark dari logo utama untuk fallback compact |
 | `favicon_merahputih.ico` | Favicon utama browser |
 | `favicon.ico` | Favicon fallback browser |
 | `favicon-16x16.png` | Favicon PNG ukuran 16x16 |

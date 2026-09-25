@@ -11,7 +11,7 @@
 <body class="admin-login">
     <main class="admin-auth-shell">
         <aside class="admin-auth-brand" aria-label="Portal redaksi Harian Merah Putih">
-            <a href="{{ route('home') }}" class="admin-auth-brand__logo"><img src="{{ asset('branding/logo-primary.png') }}" alt="Harian Merah Putih"></a>
+            <a href="{{ route('home') }}" class="admin-auth-brand__logo"><img src="{{ asset('branding/logo-primary.svg') }}" alt="Harian Merah Putih"></a>
             <div class="admin-auth-brand__content">
                 <span>Portal Editorial</span>
                 <h2>Berita terpercaya dimulai dari ruang redaksi yang tertata.</h2>
