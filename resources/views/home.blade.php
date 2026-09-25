@@ -4,7 +4,7 @@
     $hasDemo = $headline?->is_demo || $secondary->contains('is_demo', true) || $latest->contains('is_demo', true) || $panelArticles->contains('is_demo', true);
     $robots = $hasDemo ? 'noindex' : null;
     $isPopularPage = request()->query('panel') === 'popular';
-    $title = $isPopularPage ? 'Berita Terpopuler' : 'Beranda';
+    $title = $isPopularPage ? 'Berita Terpopuler' : 'Harian Merah Putih';
     $metaDescription = $isPopularPage ? 'Daftar berita terpopuler Harian Merah Putih berdasarkan jumlah pembaca.' : 'Berita terbaru Indonesia dari Harian Merah Putih.';
     $tickerArticle = $tickerArticles->first();
 @endphp

@@ -6,7 +6,7 @@
         $canonicalUrl = $canonical ?? url()->current();
         if (! str_starts_with($canonicalUrl, rtrim(config('app.url'), '/'))) $canonicalUrl = url()->current();
         $articleImage = isset($article) && $article->featuredMedia?->media ? $article->featuredMedia->media->absoluteUrl() : null;
-        $socialImage = $ogImage ?? $articleImage;
+        $socialImage = $ogImage ?? $articleImage ?? asset('branding/logo-site-og.png');
         $isPublishedArticle = isset($article) && $article->status === 'published' && $article->published_at?->isPast() && ! $article->is_demo;
         $siteSettings = \App\Models\Setting::values(['social.facebook', 'social.x', 'social.instagram', 'social.youtube', 'social.tiktok', 'social.rss', 'contact.office_phone', 'contact.whatsapp']);
         $officePhone = trim($siteSettings['contact.office_phone'] ?? '');
@@ -55,6 +55,9 @@
         <meta property="og:url" content="{{ $canonicalUrl }}">
         @if ($socialImage)
             <meta property="og:image" content="{{ $socialImage }}">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
+            <meta property="og:image:type" content="image/png">
             <meta name="twitter:card" content="summary_large_image">
             <meta name="twitter:image" content="{{ $socialImage }}">
         @else
