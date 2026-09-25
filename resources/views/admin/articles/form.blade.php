@@ -13,7 +13,7 @@
             <div class="admin-form-heading"><span class="admin-row-icon"><x-icon name="article" /></span><div><h2>Isi berita</h2><p>Tulis judul yang jelas dan isi yang mudah dibaca.</p></div></div>
             <label><span>Judul <b>*</b></span><input class="admin-title-input" name="title" value="{{ old('title', $article->title) }}" placeholder="Tulis judul berita" required></label>
             <label><span>Slug URL</span><input name="slug" value="{{ old('slug', $article->slug) }}" placeholder="Dibuat otomatis bila kosong"></label>
-            <label><span>Ringkasan <b>*</b></span><textarea name="excerpt" rows="4" placeholder="Ringkasan singkat untuk kartu berita dan mesin pencari" required>{{ old('excerpt', $article->excerpt) }}</textarea></label>
+            <label><span>Ringkasan <small>(opsional)</small></span><textarea name="excerpt" rows="4" placeholder="Kosongkan untuk membuat ringkasan otomatis dari isi artikel">{{ old('excerpt', $article->excerpt) }}</textarea><span class="admin-field-help">Jika dikosongkan, sistem mengambil ringkasan dari paragraf awal isi artikel.</span></label>
             <label><span>Isi artikel <b>*</b></span><span class="admin-field-help">Gunakan tombol sisipkan setelah memilih media berperan Inline.</span><textarea id="article-body" name="body" rows="18" placeholder="Mulai tulis berita di sini..." required>{{ old('body', $article->body) }}</textarea></label>
         </section>
         <aside class="admin-form-card admin-editor-sidebar">

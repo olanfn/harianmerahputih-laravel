@@ -18,7 +18,7 @@ class StoreArticleRequest extends FormRequest
             'category_id' => ['required', 'exists:categories,id'],
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:articles,slug'],
-            'excerpt' => ['required', 'string', 'max:1000'],
+            'excerpt' => ['nullable', 'string', 'max:1000'],
             'body' => ['required', 'string'],
             'status' => ['required', Rule::in(['draft', 'review', 'scheduled', 'published', 'archived'])],
             'published_at' => [

@@ -57,4 +57,23 @@ class CmsWorkflowTest extends TestCase
         $this->assertDatabaseHas('audit_logs', ['action' => 'article.created']);
         $this->assertDatabaseHas('audit_logs', ['action' => 'media.uploaded']);
     }
+
+    public function test_editor_can_leave_excerpt_empty_and_it_is_generated_from_article_body(): void
+    {
+        $editor = User::factory()->create(['role' => 'editor']);
+        $category = Category::factory()->create();
+
+        $this->actingAs($editor)->post(route('admin.articles.store'), [
+            'category_id' => $category->id,
+            'title' => 'Artikel Tanpa Ringkasan',
+            'excerpt' => '',
+            'body' => '<p>Paragraf pembuka artikel yang dapat digunakan sebagai ringkasan otomatis.</p><p>Paragraf berikutnya.</p>',
+            'status' => 'draft',
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('articles', [
+            'title' => 'Artikel Tanpa Ringkasan',
+            'excerpt' => 'Paragraf pembuka artikel yang dapat digunakan sebagai ringkasan otomatis. Paragraf berikutnya.',
+        ]);
+    }
 }
