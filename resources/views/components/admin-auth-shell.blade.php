@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title }} · Harian Merah Putih</title>
     <link rel="icon" href="{{ asset('branding/favicon_merahputih.ico') }}" sizes="any">
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="admin-login">
     <main class="admin-auth-shell">

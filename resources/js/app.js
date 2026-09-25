@@ -5,6 +5,23 @@ window.Alpine = Alpine;
 Alpine.start();
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-password-toggle]').forEach((button) => {
+        const input = document.getElementById(button.getAttribute('aria-controls'));
+        if (!input) return;
+
+        const updateToggle = (visible) => {
+            button.setAttribute('aria-pressed', String(visible));
+            button.setAttribute('aria-label', visible ? 'Sembunyikan password' : 'Tampilkan password');
+            button.title = visible ? 'Sembunyikan password' : 'Tampilkan password';
+        };
+
+        button.addEventListener('click', () => {
+            const visible = input.type === 'password';
+            input.type = visible ? 'text' : 'password';
+            updateToggle(visible);
+        });
+    });
+
     const shell = document.querySelector('[data-admin-shell]');
     document.querySelectorAll('[data-admin-menu]').forEach((button) => {
         button.addEventListener('click', () => {
