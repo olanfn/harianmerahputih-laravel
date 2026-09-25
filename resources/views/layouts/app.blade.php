@@ -3,16 +3,17 @@
     @php
         $pageTitle = $title ?? config('news.brand.name');
         $pageDescription = $metaDescription ?? 'Portal berita Harian Merah Putih, kebanggaan Indonesia.';
+        $isArticlePage = (bool) ($articlePage ?? false);
         $canonicalUrl = $canonical ?? url()->current();
         if (! str_starts_with($canonicalUrl, rtrim(config('app.url'), '/'))) $canonicalUrl = url()->current();
-        $articleMedia = isset($article) ? $article->featuredMedia?->media : null;
+        $articleMedia = $isArticlePage ? $article->featuredMedia?->media : null;
         $articleImage = $articleMedia ? $articleMedia->absoluteUrl() : null;
         $socialImage = $ogImage ?? $articleImage ?? asset('branding/logo-site-og.png');
         $socialImageWidth = $articleMedia?->width ?: 1200;
         $socialImageHeight = $articleMedia?->height ?: 630;
         $socialImageMime = $articleMedia?->mime_type ?: 'image/png';
         if (! str_starts_with($socialImageMime, 'image/')) $socialImageMime = 'image/png';
-        $isPublishedArticle = isset($article) && $article->status === 'published' && $article->published_at?->isPast() && ! $article->is_demo;
+        $isPublishedArticle = $isArticlePage && $article->status === 'published' && $article->published_at?->isPast() && ! $article->is_demo;
         $siteSettings = \App\Models\Setting::values(['social.facebook', 'social.x', 'social.instagram', 'social.youtube', 'social.tiktok', 'social.rss', 'contact.office_phone', 'contact.whatsapp']);
         $officePhone = trim($siteSettings['contact.office_phone'] ?? '');
         $whatsapp = preg_replace('/[^0-9]/', '', $siteSettings['contact.whatsapp'] ?? '');
@@ -38,7 +39,7 @@
                 ['@type' => 'WebSite', 'name' => config('news.brand.name'), 'url' => rtrim(config('app.url'), '/')],
             ],
         ];
-        $breadcrumbStructuredData = isset($article) ? [
+        $breadcrumbStructuredData = $isArticlePage ? [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
             'itemListElement' => [
@@ -53,7 +54,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="{{ $pageDescription }}">
         <link rel="canonical" href="{{ $canonicalUrl }}">
-        <meta property="og:type" content="{{ isset($article) ? 'article' : 'website' }}">
+        <meta property="og:type" content="{{ $isArticlePage ? 'article' : 'website' }}">
         <meta property="og:site_name" content="{{ config('news.brand.name') }}">
         <meta property="og:title" content="{{ $pageTitle }}">
         <meta property="og:description" content="{{ $pageDescription }}">
@@ -82,7 +83,7 @@
         @if ($breadcrumbStructuredData)
             <script type="application/ld+json">@json($breadcrumbStructuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
         @endif
-        @if (!isset($article))
+        @if (! $isArticlePage)
             <script type="application/ld+json">@json($siteStructuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
         @endif
         <link rel="icon" href="{{ asset('branding/favicon_merahputih.ico') }}?v=2" type="image/x-icon" sizes="any">

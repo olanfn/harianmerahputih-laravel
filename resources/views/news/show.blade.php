@@ -3,6 +3,7 @@
 @php
     $title = $article->seo_title ?: $article->title;
     $metaDescription = $article->seo_description ?: $article->excerpt;
+    $articlePage = true;
     $robots = $article->is_demo ? 'noindex' : null;
     $isAdminPreview = request()->routeIs('admin.articles.preview');
     $backUrl = $isAdminPreview

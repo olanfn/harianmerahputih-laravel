@@ -13,6 +13,36 @@ class SeoDistributionTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_homepage_keeps_site_og_image_when_article_cards_are_present(): void
+    {
+        $category = Category::factory()->create(['slug' => 'nasional']);
+        $article = Article::factory()->published()->create([
+            'category_id' => $category->id,
+            'title' => 'Artikel Homepage Dengan Gambar',
+            'is_demo' => false,
+        ]);
+        $media = Media::query()->create([
+            'disk' => 'public',
+            'path' => 'articles/2026/09/home.jpg',
+            'original_name' => 'home.jpg',
+            'mime_type' => 'image/jpeg',
+            'size' => 100,
+            'width' => 1200,
+            'height' => 630,
+            'alt_text' => 'Gambar homepage',
+            'is_temporary' => false,
+        ]);
+        $article->mediaLinks()->create(['media_id' => $media->id, 'role' => 'featured', 'sort_order' => 0]);
+
+        $response = $this->get('/');
+
+        $response->assertOk()
+            ->assertSee('<meta property="og:type" content="website">', false)
+            ->assertSee('<meta property="og:title" content="Harian Merah Putih">', false)
+            ->assertSee('<meta property="og:image" content="'.asset('branding/logo-site-og.png').'">', false)
+            ->assertDontSee('"@type":"NewsArticle"', false);
+    }
+
     public function test_published_article_has_safe_seo_metadata_and_featured_image(): void
     {
         $category = Category::factory()->create(['slug' => 'nasional']);
