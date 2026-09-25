@@ -9,7 +9,7 @@ kebenaran untuk logo serta ikon aplikasi.
 | --- | --- |
 | `logo-primary.png` | Master logo PNG terbaru untuk header desktop, admin, login, dan metadata brand |
 | `logo-mobile.png` | Master logo PNG untuk header mobile dan detail artikel |
-| `logo-footer.png` | Varian logo footer dengan warna merah dipertahankan dan tagline terang untuk latar gelap |
+| `logo-footer.png` | Master logo PNG yang sama untuk footer; ditampilkan pada lockup putih agar terbaca di latar gelap |
 | `logo-mark.png` | Varian mark untuk fallback compact dan ruang sempit |
 | `favicon_merahputih.ico` | Favicon utama browser |
 | `favicon.ico` | Favicon fallback browser |

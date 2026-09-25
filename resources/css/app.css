@@ -313,6 +313,7 @@ button, input { font: inherit; }
 .footer-grid > * { min-width: 0; }
 .brand-lockup--footer .brand-lockup__mark { width: 40px; height: 40px; }
 .brand-lockup--footer .brand-lockup__words strong { font-size: 24px; }
+.brand-lockup--footer { border-radius: 7px; background: #fff; padding: 8px 10px; }
 .footer-brand p, .footer-follow p { max-width: 260px; margin: 20px 0 0; color: #a5a5a5; font-size: 12px; line-height: 1.6; }
 .site-footer h2 { margin: 0 0 17px; color: #fff; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
 .footer-links { display: grid; gap: 10px; color: #a5a5a5; font-size: 12px; }
