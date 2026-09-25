@@ -12,8 +12,6 @@
         <section class="admin-form-card">
             <div class="admin-form-heading"><span class="admin-row-icon"><x-icon name="article" /></span><div><h2>Isi berita</h2><p>Tulis judul yang jelas dan isi yang mudah dibaca.</p></div></div>
             <label><span>Judul <b>*</b></span><input class="admin-title-input" name="title" value="{{ old('title', $article->title) }}" placeholder="Tulis judul berita" required></label>
-            <label><span>Slug URL</span><input name="slug" value="{{ old('slug', $article->slug) }}" placeholder="Dibuat otomatis bila kosong"></label>
-            <label><span>Ringkasan <small>(opsional)</small></span><textarea name="excerpt" rows="4" placeholder="Kosongkan untuk membuat ringkasan otomatis dari isi artikel">{{ old('excerpt', $article->excerpt) }}</textarea><span class="admin-field-help">Jika dikosongkan, sistem mengambil ringkasan dari paragraf awal isi artikel.</span></label>
             <label><span>Isi artikel <b>*</b></span><span class="admin-field-help">Gunakan tombol sisipkan setelah memilih media berperan Inline.</span><textarea id="article-body" name="body" rows="18" placeholder="Mulai tulis berita di sini..." required>{{ old('body', $article->body) }}</textarea></label>
         </section>
         <aside class="admin-form-card admin-editor-sidebar">
@@ -31,6 +29,11 @@
         <div id="media-upload-status" class="media-upload-status" aria-live="polite"></div>
         <div class="media-toolbar"><span>Seret kartu untuk mengubah urutan.</span><button type="button" class="admin-button admin-button--secondary" id="insert-media"><x-icon name="image" />Sisipkan media inline</button></div>
         <div id="media-list" class="media-list">@foreach($article->mediaLinks ?? [] as $link)<article class="media-item" draggable="true" data-id="{{ $link->media_id }}" data-url="{{ $link->media->url() }}"><div class="media-item__preview"><img src="{{ $link->media->url() }}" alt=""><span class="media-item__handle">⋮⋮</span></div><div class="media-item__fields"><label><span>Peran</span><select data-field="role"><option value="featured" @selected($link->role === 'featured')>Gambar utama</option><option value="gallery" @selected($link->role === 'gallery')>Galeri</option><option value="inline" @selected($link->role === 'inline')>Inline</option></select></label><label><span>Alt text</span><input data-field="alt_text" value="{{ $link->media->alt_text }}"></label><label><span>Caption</span><input data-field="caption" value="{{ $link->caption_override ?: $link->media->caption }}"></label><button class="media-remove" type="button" data-remove><x-icon name="trash" />Hapus relasi</button></div></article>@endforeach</div>
+    </section>
+    <section class="admin-form-card editor-optional-fields">
+        <div class="admin-form-heading"><span class="admin-row-icon"><x-icon name="edit" /></span><div><h2>Detail tambahan</h2><p>Opsional. Dapat dibuat otomatis dari isi artikel.</p></div></div>
+        <label><span>Slug URL</span><input name="slug" value="{{ old('slug', $article->slug) }}" placeholder="Dibuat otomatis bila kosong"></label>
+        <label><span>Ringkasan <small>(opsional)</small></span><textarea name="excerpt" rows="4" placeholder="Kosongkan untuk membuat ringkasan otomatis dari isi artikel">{{ old('excerpt', $article->excerpt) }}</textarea><span class="admin-field-help">Jika dikosongkan, sistem mengambil ringkasan dari paragraf awal isi artikel.</span></label>
     </section>
     <div class="admin-editor-actions"><span>Pastikan judul, kategori, dan status sudah sesuai.</span><button class="admin-button admin-button--large" type="submit"><x-icon name="check" />Simpan artikel</button></div>
 </form>
