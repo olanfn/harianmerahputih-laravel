@@ -23,7 +23,7 @@
 <div class="admin-shell" data-admin-shell>
     <aside class="admin-sidebar" id="admin-sidebar">
         <div class="admin-sidebar__brand">
-            <a href="{{ route('admin.dashboard') }}" aria-label="Dashboard redaksi"><img src="{{ asset('branding/logo-primary.svg') }}" alt="Harian Merah Putih"></a>
+            <a href="{{ route('admin.dashboard') }}" aria-label="Dashboard redaksi"><img src="{{ asset('branding/logo-primary.png') }}" alt="Harian Merah Putih"></a>
             <button type="button" class="admin-sidebar__close" data-admin-menu aria-label="Tutup navigasi"><x-icon name="close" /></button>
         </div>
         <div class="admin-sidebar__workspace"><span>Workspace</span><strong>Portal Redaksi</strong></div>

@@ -24,12 +24,12 @@
             'author' => ['@type' => 'Person', 'name' => $article->author?->name ?: 'Redaksi Harian Merah Putih'],
             'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => $canonicalUrl],
             'image' => $articleImage ? [$articleImage] : [],
-            'publisher' => ['@type' => 'Organization', 'name' => config('news.brand.name'), 'logo' => ['@type' => 'ImageObject', 'url' => asset('branding/logo-primary.svg')]],
+            'publisher' => ['@type' => 'Organization', 'name' => config('news.brand.name'), 'logo' => ['@type' => 'ImageObject', 'url' => asset('branding/logo-primary.png')]],
         ] : null;
         $siteStructuredData = [
             '@context' => 'https://schema.org',
             '@graph' => [
-                ['@type' => 'Organization', 'name' => config('news.brand.name'), 'url' => rtrim(config('app.url'), '/'), 'logo' => asset('branding/logo-primary.svg')],
+                ['@type' => 'Organization', 'name' => config('news.brand.name'), 'url' => rtrim(config('app.url'), '/'), 'logo' => asset('branding/logo-primary.png')],
                 ['@type' => 'WebSite', 'name' => config('news.brand.name'), 'url' => rtrim(config('app.url'), '/')],
             ],
         ];
@@ -99,7 +99,7 @@
                         </span>
                     </button>
                     <a href="{{ route('home') }}" class="brand-lockup focus-ring" aria-label="Harian Merah Putih, kembali ke beranda">
-                        <img src="{{ asset('branding/logo-primary.svg') }}" alt="Harian Merah Putih" class="brand-lockup__primary">
+                        <img src="{{ asset('branding/logo-primary.png') }}" alt="Harian Merah Putih" class="brand-lockup__primary">
                         <img src="{{ asset('branding/logo-mobile.png') }}" alt="Harian Merah Putih" class="brand-lockup__mobile">
                     </a>
                     <div class="masthead__date">{{ now()->locale('id')->translatedFormat('l, d F Y') }}<br><strong>Berita Indonesia Hari Ini</strong></div>
@@ -120,7 +120,7 @@
                         <small>Jelajahi Kategori</small>
                     </div>
                     <a href="{{ route('home') }}" class="desktop-nav-brand focus-ring" aria-label="Harian Merah Putih, kembali ke beranda">
-                        <img src="{{ asset('branding/logo-primary.svg') }}" alt="Harian Merah Putih">
+                        <img src="{{ asset('branding/logo-primary.png') }}" alt="Harian Merah Putih">
                     </a>
                     <a href="{{ route('home') }}" class="main-nav__home focus-ring {{ request()->routeIs('home') ? 'is-active' : '' }}">Home</a>
                     <div class="main-nav__categories">

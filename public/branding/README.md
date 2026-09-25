@@ -7,18 +7,19 @@ kebenaran untuk logo serta ikon aplikasi.
 
 | File | Penggunaan |
 | --- | --- |
-| `logo-primary.svg` | Logo utama dari master baru untuk header desktop dan admin |
-| `logo-mobile.svg` | Varian crop logo utama untuk header mobile dan detail artikel |
+| `logo-primary.png` | Master logo PNG terbaru untuk header desktop, admin, login, dan metadata brand |
+| `logo-mobile.png` | Master logo PNG untuk header mobile dan detail artikel |
 | `logo-footer.png` | Varian logo footer dengan warna merah dipertahankan dan tagline terang untuk latar gelap |
-| `logo-mark.svg` | Varian mark dari logo utama untuk fallback compact |
+| `logo-mark.png` | Varian mark untuk fallback compact dan ruang sempit |
 | `favicon_merahputih.ico` | Favicon utama browser |
 | `favicon.ico` | Favicon fallback browser |
 | `favicon-16x16.png` | Favicon PNG ukuran 16x16 |
 | `favicon-32x32.png` | Favicon PNG ukuran 32x32 |
 | `apple-touch-icon.png` | Ikon perangkat Apple |
 
-Varian logo dipetakan melalui `src/components/brand/logo.tsx`. Favicon dan
-Apple touch icon didaftarkan melalui metadata di `src/app/layout.tsx`.
+Template Laravel menggunakan `asset('branding/...')` untuk seluruh referensi
+logo dan ikon. Footer tetap memakai varian terang agar terbaca di atas latar
+gelap.
 
 ## Aturan penggunaan
 
