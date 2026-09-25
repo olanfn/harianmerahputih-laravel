@@ -77,7 +77,7 @@
         @if (!isset($article))
             <script type="application/ld+json">@json($siteStructuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
         @endif
-        <link rel="icon" href="{{ asset('branding/favicon_merahputih.ico') }}" sizes="any">
+        <link rel="icon" href="{{ asset('branding/favicon_merahputih.ico') }}?v=2" type="image/x-icon" sizes="any">
         <link rel="apple-touch-icon" href="{{ asset('branding/apple-touch-icon.png') }}">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
