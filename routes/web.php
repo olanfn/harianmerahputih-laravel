@@ -61,7 +61,6 @@ Route::prefix(config('news.admin_path'))->name('admin.')->group(function () {
         Route::put('/halaman/{page:slug}', [RedactionPageController::class, 'updatePage'])->name('pages.update');
         Route::get('/site-contact', [SiteContactController::class, 'edit'])->name('site-contact.edit');
         Route::put('/site-contact', [SiteContactController::class, 'update'])->name('site-contact.update');
-        Route::bind('adminArticle', fn ($value) => \App\Models\Article::query()->findOrFail($value));
         Route::get('articles/{adminArticle}/preview', [ArticleController::class, 'preview'])->name('articles.preview');
         Route::get('articles/{adminArticle}/revisions', [ArticleController::class, 'revisions'])->name('articles.revisions');
         Route::post('articles/{adminArticle}/revisions/{revision}/restore', [ArticleController::class, 'restore'])->name('articles.revisions.restore');
