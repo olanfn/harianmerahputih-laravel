@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\AuditLog;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PublishScheduledArticles extends Command
 {
@@ -14,6 +15,10 @@ class PublishScheduledArticles extends Command
 
     public function handle(): int
     {
+        Log::info('scheduled_publish.cron_started', [
+            'time' => now()->toIso8601String(),
+        ]);
+
         $now = now();
         $eligible = 0;
         $published = 0;
@@ -35,6 +40,14 @@ class PublishScheduledArticles extends Command
         });
 
         $this->info("Eligible: {$eligible}; published: {$published}; failed: {$failed}.");
+
+        Log::info('scheduled_publish.cron_finished', [
+            'eligible' => $eligible,
+            'published' => $published,
+            'failed' => $failed,
+            'time' => now()->toIso8601String(),
+        ]);
+
         return $failed > 0 ? self::FAILURE : self::SUCCESS;
     }
 }
