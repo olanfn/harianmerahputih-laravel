@@ -51,6 +51,18 @@ class CmsAccessTest extends TestCase
             ->assertSee('Draft yang Bisa Diedit');
     }
 
+    public function test_admin_layout_exposes_mobile_logout_control(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('admin-topbar__logout-form', false)
+            ->assertSee('aria-label="Keluar dari CMS"', false)
+            ->assertSee(route('admin.logout'), false);
+    }
+
     public function test_media_relation_keeps_shared_media(): void
     {
         $article = Article::factory()->create(['category_id' => Category::factory()]);

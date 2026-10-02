@@ -944,6 +944,8 @@ button, input { font: inherit; }
 .admin-topbar__context strong { font-size: 14px; }
 .admin-topbar__actions { display: flex; align-items: center; gap: 18px; }
 .admin-topbar__actions a { display: flex; align-items: center; gap: 7px; color: #555c65; font-size: 11px; font-weight: 800; }
+.admin-topbar__logout-form { display: none; margin: 0; }
+.admin-topbar__logout { display: inline-grid; width: 38px; height: 38px; place-items: center; border: 1px solid #e2e5e9; border-radius: 50%; background: #fff; color: #a60e26; cursor: pointer; }
 .admin-menu-button { display: none; border: 0; background: none; color: #242a31; }
 .admin-main { width: 100%; max-width: 1460px; padding: 36px clamp(22px, 3vw, 46px) 70px; }
 .admin-page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin: 0 0 28px; }
@@ -1005,6 +1007,7 @@ button, input { font: inherit; }
 @media (max-width: 1180px) { .media-library-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }.media-list { grid-template-columns: 1fr; }.article-filter-toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }.article-filter-search { grid-column: 1 / -1; } }
 @media (max-width: 900px) {
     .admin-shell { grid-template-columns: 1fr; }.admin-sidebar { position: fixed; left: 0; transform: translateX(-102%); width: min(290px, 88vw); transition: transform .2s ease; }.admin-shell.is-menu-open .admin-sidebar { transform: translateX(0); }.admin-sidebar__close, .admin-menu-button { display: inline-grid; width: 38px; height: 38px; place-items: center; cursor: pointer; }.admin-shell.is-menu-open .admin-overlay { position: fixed; inset: 0; z-index: 50; display: block; border: 0; background: rgba(10,13,17,.58); }.admin-topbar { min-height: 64px; padding-inline: 18px; }.admin-topbar__context { margin-right: auto; }.admin-main { padding: 27px 20px 60px; }.editor-grid { grid-template-columns: 1fr; }.admin-editor-sidebar { position: static; }.media-library-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .admin-topbar__logout-form { display: block; }
     .article-filter-toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .article-filter-search { grid-column: 1 / -1; }
 }

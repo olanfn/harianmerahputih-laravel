@@ -54,7 +54,14 @@
         <header class="admin-topbar">
             <button type="button" class="admin-menu-button" data-admin-menu aria-controls="admin-sidebar" aria-expanded="false"><x-icon name="menu" /><span class="sr-only">Buka navigasi</span></button>
             <div class="admin-topbar__context"><span>Harian Merah Putih</span><strong>@yield('section', 'Ruang Redaksi')</strong></div>
-            <div class="admin-topbar__actions"><a href="{{ route('home') }}" target="_blank" rel="noopener"><x-icon name="external" /><span>Lihat situs</span></a><span class="admin-avatar">{{ strtoupper(mb_substr($adminUser->name, 0, 1)) }}</span></div>
+            <div class="admin-topbar__actions">
+                <a href="{{ route('home') }}" target="_blank" rel="noopener"><x-icon name="external" /><span>Lihat situs</span></a>
+                <form class="admin-topbar__logout-form" method="post" action="{{ route('admin.logout') }}">
+                    @csrf
+                    <button type="submit" class="admin-topbar__logout" aria-label="Keluar dari CMS" title="Keluar"><x-icon name="logout" /><span class="sr-only">Keluar</span></button>
+                </form>
+                <span class="admin-avatar">{{ strtoupper(mb_substr($adminUser->name, 0, 1)) }}</span>
+            </div>
         </header>
         <main class="admin-main">
             @if(session('status'))<div class="admin-flash admin-flash--success" role="status"><x-icon name="check" /><span>{{ session('status') }}</span></div>@endif
